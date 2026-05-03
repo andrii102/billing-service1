@@ -11,14 +11,24 @@ spring:
     show-sql: false
   datasource:
     driver-class-name: org.h2.Driver
-    username: sa
-    password: ""
-    url: jdbc:h2:file:./billingdb
+    url: ${SPRING_DATASOURCE_URL:jdbc:h2:file:/app/data/billingdb;DB_CLOSE_DELAY=-1}
+    username: ${SPRING_DATASOURCE_USERNAME:sa}
+    password: ${SPRING_DATASOURCE_PASSWORD:password}
 spring.h2.console.enabled: true
 server:
   port: 8082
 
+user-service:
+  url: ${USER_SERVICE_URL:http://user-service:8080}
 membership-service:
-  url: http://localhost:8081
+  url: ${SUBSCRIPTION_SERVICE_URL:http://subscription-service:8081}
 notification-service:
-  url: http://localhost:8083
+  url: ${NOTIFICATION_SERVICE_URL:http://notification-service:8083}
+
+logging:
+  level:
+    dre.billingservice: DEBUG
+    dre.billingservice.client: DEBUG
+    dre.billingservice.service.impl: DEBUG
+    feign: DEBUG
+    org.springframework.web: DEBUG
