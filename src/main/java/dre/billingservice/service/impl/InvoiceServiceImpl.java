@@ -1,8 +1,10 @@
 package dre.billingservice.service.impl;
 
 import dre.billingservice.client.MembershipServiceClient;
+import dre.billingservice.client.NotificationServiceClient;
 import dre.billingservice.client.UserServiceClient;
 import dre.billingservice.dto.MembershipDTO;
+import dre.billingservice.dto.NotificationDTO;
 import dre.billingservice.dto.UserDTO;
 import dre.billingservice.dto.payments.CreateInvoiceRequest;
 import dre.billingservice.dto.payments.CreatePaymentHistoryDTO;
@@ -37,6 +39,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     private final PaymentHistoryService paymentHistoryService;
     private final MembershipServiceClient membershipServiceClient;
     private final UserServiceClient userServiceClient;
+    private final NotificationServiceClient notificationServiceClient;
 
     @Override
     @Transactional(readOnly = true)
@@ -82,6 +85,12 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         Invoice savedInvoice = invoiceRepository.save(invoice);
         log.info("Invoice created successfully with ID: {}", savedInvoice.getId());
+        log.info("Sending invoice creation notification to user ID: {}", user.id());
+        notificationServiceClient.sendNotification(new NotificationDTO(
+                user.id(),
+                "Your invoice has been created successfully.")
+        );
+
         return toDTO(savedInvoice);
     }
 
@@ -112,6 +121,12 @@ public class InvoiceServiceImpl implements InvoiceService {
         ));
 
         log.info("Payment processed successfully for invoice ID: {}", invoiceId);
+        log.info("Sending payment notification to user ID: {}", invoice.getUserId());
+        notificationServiceClient.sendNotification(new NotificationDTO(
+                invoice.getUserId(),
+                "Your invoice has been paid successfully.")
+        );
+
         return toDTO(savedInvoice);
     }
 

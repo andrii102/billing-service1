@@ -2,7 +2,6 @@ package dre.billingservice.dto.payments;
 
 import dre.billingservice.model.InvoiceStatus;
 import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
