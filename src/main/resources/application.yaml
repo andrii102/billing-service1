@@ -19,11 +19,11 @@ server:
   port: 8082
 
 user-service:
-  url: ${USER_SERVICE_URL:http://user-service:8080}
+  url: ${USER_SERVICE_URL:http://localhost:8080}
 membership-service:
-  url: ${SUBSCRIPTION_SERVICE_URL:http://subscription-service:8081}
+  url: ${SUBSCRIPTION_SERVICE_URL:http://localhost:8081}
 notification-service:
-  url: ${NOTIFICATION_SERVICE_URL:http://notification-service:8083}
+  url: ${NOTIFICATION_SERVICE_URL:http://localhost:8083}
 
 logging:
   level:
