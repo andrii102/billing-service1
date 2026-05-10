@@ -15,6 +15,7 @@ import dre.billingservice.exception.InvoiceAlreadyPaidException;
 import dre.billingservice.exception.InvoiceCanceledExceptinon;
 import dre.billingservice.model.Invoice;
 import dre.billingservice.model.InvoiceStatus;
+import dre.billingservice.model.MembershipStatus;
 import dre.billingservice.model.PaymentMethod;
 import dre.billingservice.model.PaymentStatus;
 import dre.billingservice.repository.InvoiceRepository;
@@ -119,6 +120,9 @@ public class InvoiceServiceImpl implements InvoiceService {
                 PaymentMethod.CASH,   // To be filled by the payment gateway response
                 PaymentStatus.COMPLETED    // To be filled by the payment gateway response
         ));
+
+        log.info("Updating membership status to ACTIVE for membership ID: {}", invoice.getMembershipId());
+        membershipServiceClient.setMembershipStatus(invoice.getMembershipId(), MembershipStatus.ACTIVE);
 
         log.info("Payment processed successfully for invoice ID: {}", invoiceId);
         log.info("Sending payment notification to user ID: {}", invoice.getUserId());
